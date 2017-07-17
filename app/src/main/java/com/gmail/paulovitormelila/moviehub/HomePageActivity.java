@@ -46,11 +46,15 @@ public class HomePageActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         SearchView search = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         search.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
         search.setQueryHint(getResources().getString(R.string.search_hint));
+
+        search.setMaxWidth( Integer.MAX_VALUE );
+
         return true;
     }
 
