@@ -57,18 +57,9 @@ public class NowPlayingMoviesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
+
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public MovieViewHolder(View itemView) {
@@ -107,7 +98,7 @@ public class NowPlayingMoviesFragment extends Fragment {
             Movie movie = mMovieList.get(position);
             Picasso.with(mContext)
                     .load(movie.getPoster())
-                    .placeholder(R.color.grey)
+                    .placeholder(R.drawable.poster_placeholder)
                     .into(holder.imageView);
         }
 

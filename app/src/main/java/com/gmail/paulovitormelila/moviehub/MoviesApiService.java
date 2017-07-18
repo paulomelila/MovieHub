@@ -7,13 +7,13 @@ import retrofit.http.GET;
  * Created by jose on 10/6/15.
  */
 public interface MoviesApiService {
-    @GET("/movie/popular")
+    @GET("/discover/movie")
     void getPopularMovies(Callback<Movie.MovieResult> cb);
 
-    @GET("/movie/top_rated")
+    @GET("/discover/movie")
     void getTopRatedMovies(Callback<Movie.MovieResult> cb);
 
-    @GET("/movie/upcoming")
+    @GET("/discover/movie")
     void getUpcomingMovies(Callback<Movie.MovieResult> cb);
 
     @GET("/movie/now_playing")

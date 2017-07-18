@@ -2,6 +2,7 @@ package com.gmail.paulovitormelila.moviehub;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,10 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit.Callback;
@@ -57,18 +62,9 @@ public class UpcomingMoviesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-    }
-
         return super.onOptionsItemSelected(item);
     }
+
     public static class MovieViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public MovieViewHolder(View itemView) {
@@ -107,7 +103,7 @@ public class UpcomingMoviesFragment extends Fragment {
             Movie movie = mMovieList.get(position);
             Picasso.with(mContext)
                     .load(movie.getPoster())
-                    .placeholder(R.color.grey)
+                    .placeholder(R.drawable.poster_placeholder)
                     .into(holder.imageView);
         }
 
@@ -124,12 +120,25 @@ public class UpcomingMoviesFragment extends Fragment {
     }
 
     private void getUpcomingMovies() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar now = Calendar.getInstance();
+
+        Calendar future = Calendar.getInstance();
+        future.add(Calendar.DAY_OF_MONTH, 180);
+
+        final String today = df.format(now.getTime());
+        final String in_six_months = df.format(future.getTime());
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
                         request.addEncodedQueryParam("api_key", API_KEY);
+                        request.addEncodedQueryParam("sort_by", "popularity.desc");
+                        request.addEncodedQueryParam("primary_release_date.gte", today);
+                        request.addEncodedQueryParam("primary_release_date.lte", in_six_months);
                     }
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)

@@ -2,15 +2,11 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".HomePageActivity">
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-          android:orderInCategory="100"
-          app:showAsAction="never"/>
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/action_search"
             android:title="@string/search_hint"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="@mipmap/ic_search"
             android:orderInCategory="1"
             app:showAsAction="collapseActionView|ifRoom"
             app:actionViewClass="android.support.v7.widget.SearchView"/>
