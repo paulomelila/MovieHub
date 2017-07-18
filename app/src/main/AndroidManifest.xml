@@ -11,43 +11,48 @@
         android:roundIcon="@mipmap/moviehub_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".HomePageActivity"
             android:launchMode="singleTop">
+
             <!-- meta tag points to the activity which displays the results -->
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".SearchResultsActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SearchResultsActivity"
             android:label="@string/search_results"
-            android:parentActivityName="com.gmail.paulovitormelila.moviehub.HomePageActivity">
+            android:parentActivityName=".HomePageActivity">
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gmail.paulovitormelila.moviehub.HomePageActivity" />
             <!-- meta tag and intent filter go into results activity -->
-            <meta-data android:name="android.app.searchable"
+            <meta-data
+                android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".WatchlistActivity"
+            android:label="@string/watchlist"
+            android:parentActivityName=".HomePageActivity"></activity>
+        <activity android:name=".SingleFragmentActivity"></activity>
     </application>
 
 </manifest>

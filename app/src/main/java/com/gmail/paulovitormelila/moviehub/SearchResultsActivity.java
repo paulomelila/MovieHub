@@ -64,6 +64,17 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         search.setMaxWidth( Integer.MAX_VALUE );
 
+        MenuItem watchlist = menu.findItem(R.id.watchlist);
+        watchlist.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent watchlist = new Intent(SearchResultsActivity.this, WatchlistActivity.class);
+                startActivity(watchlist);
+
+                return true;
+            }
+        });
+
         return true;
     }
 

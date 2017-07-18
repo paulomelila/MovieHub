@@ -3,10 +3,14 @@ package com.gmail.paulovitormelila.moviehub;
 import android.os.Bundle;
 
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -18,6 +22,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     ImageView poster;
     TextView title;
     TextView description;
+    FloatingActionButton add_to_watchlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +52,22 @@ public class MovieDetailActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(mMovie.getBackdrop())
                 .into(backdrop);
+
+        addToWatchlist();
+    }
+
+    public void addToWatchlist() {
+        add_to_watchlist = (FloatingActionButton) findViewById(R.id.add_to_watchlist);
+        add_to_watchlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast added_to_watchlist = Toast.makeText(MovieDetailActivity.this, mMovie.getTitle() + " was added to your watchlist.", Toast.LENGTH_LONG);
+                TextView message = (TextView) added_to_watchlist.getView().findViewById(android.R.id.message);
+                if (message != null) message.setGravity(Gravity.CENTER);
+                added_to_watchlist.show();
+
+                add_to_watchlist.setImageResource(R.mipmap.ic_added_to_watchlist);
+            }
+        });
     }
 }
