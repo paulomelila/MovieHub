@@ -1,11 +1,13 @@
 package com.gmail.paulovitormelila.moviehub;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,13 +25,16 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView title;
     TextView description;
     FloatingActionButton add_to_watchlist;
-
+    private static final String TAG = "MovieDetailActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+
+
         if (getIntent().hasExtra(EXTRA_MOVIE)) {
             mMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+            Log.d(TAG, "onCreate: " + mMovie.getTitle());
         } else {
             throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
         }
@@ -53,20 +58,25 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .load(mMovie.getBackdrop())
                 .into(backdrop);
 
-        addToWatchlist();
-    }
-
-    public void addToWatchlist() {
         add_to_watchlist = (FloatingActionButton) findViewById(R.id.add_to_watchlist);
         add_to_watchlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // visual part
                 Toast added_to_watchlist = Toast.makeText(MovieDetailActivity.this, mMovie.getTitle() + " was added to your watchlist.", Toast.LENGTH_LONG);
                 TextView message = (TextView) added_to_watchlist.getView().findViewById(android.R.id.message);
                 if (message != null) message.setGravity(Gravity.CENTER);
                 added_to_watchlist.show();
-
                 add_to_watchlist.setImageResource(R.mipmap.ic_added_to_watchlist);
+
+                // send intent to WatchlistActivity
+                MovieLab.get(getApplicationContext()).addMovie(mMovie);
+
+//                Intent watchlist = new Intent(MovieDetailActivity.this, WatchlistActivity.class);
+//                watchlist.putExtra("uuid", mMovie.getId());
+//                watchlist.putExtra("title", mMovie.getTitle());
+//                watchlist.putExtra("poster", mMovie.getPoster());
+//                startActivity(watchlist);
             }
         });
     }

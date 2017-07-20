@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by jose on 10/6/15.
@@ -18,14 +19,28 @@ public class Movie implements Parcelable {
     private String description;
     @SerializedName("backdrop_path")
     private String backdrop;
+    private UUID mId;
 
-    public Movie() {}
+    public UUID getId() {
+        return mId;
+    }
 
-    protected Movie(Parcel in) {
+    public void setId(UUID mId) {
+        this.mId = mId;
+    }
+
+    public Movie() {this(UUID.randomUUID());}
+
+    public Movie(Parcel in) {
         title = in.readString();
         poster = in.readString();
         description = in.readString();
         backdrop = in.readString();
+        mId = UUID.randomUUID();
+    }
+
+    public Movie(UUID id) {
+        mId = id;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {

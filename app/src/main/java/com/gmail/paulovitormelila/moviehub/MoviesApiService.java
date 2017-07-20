@@ -21,5 +21,4 @@ public interface MoviesApiService {
 
     @GET("/search/movie")
     void findMovie(Callback<Movie.MovieResult> cb);
-
 }
