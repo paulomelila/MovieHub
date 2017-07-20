@@ -26,6 +26,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView description;
     FloatingActionButton add_to_watchlist;
     private static final String TAG = "MovieDetailActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +73,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                 // send intent to WatchlistActivity
                 MovieLab.get(getApplicationContext()).addMovie(mMovie);
 
-//                Intent watchlist = new Intent(MovieDetailActivity.this, WatchlistActivity.class);
-//                watchlist.putExtra("uuid", mMovie.getId());
-//                watchlist.putExtra("title", mMovie.getTitle());
-//                watchlist.putExtra("poster", mMovie.getPoster());
-//                startActivity(watchlist);
+                Intent watchlist = new Intent(MovieDetailActivity.this, WatchlistActivity.class);
+                watchlist.putExtra("uuid", mMovie.getId());
+                watchlist.putExtra("title", mMovie.getTitle());
+                watchlist.putExtra("poster", mMovie.getPoster());
+                startActivity(watchlist);
             }
         });
     }

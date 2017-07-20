@@ -107,4 +107,8 @@ public class Movie implements Parcelable {
             return results;
         }
     }
+
+    public String getURL() {
+        return poster;
+    }
 }

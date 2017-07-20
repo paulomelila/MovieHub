@@ -2,15 +2,14 @@ package com.gmail.paulovitormelila.moviehub;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Paulo on 18/07/2017.
@@ -30,16 +30,9 @@ public class WatchlistFragment extends Fragment {
     private MovieAdapter mAdapter;
     private int mLastAdapterClickedPosition = -1;
 
-//    Intent intent = getActivity().getIntent();
-//    String uuid = intent.getStringExtra("uuid");
-//    String title = intent.getStringExtra("title");
-//    String poster = intent.getStringExtra("poster");
-//    Toast.makeText(getActivity(), uuid, Toast.LENGTH_SHORT).show();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -52,7 +45,7 @@ public class WatchlistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_watchlist, container, false);
         mMovieRecyclerView = (RecyclerView) view.findViewById(R.id.watchlist_recycler_view);
-        mMovieRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mMovieRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         updateUI();
 
@@ -74,7 +67,12 @@ public class WatchlistFragment extends Fragment {
 
         public void bind(Movie movie) {
             mMovie = movie;
-            mTitleTextView.setText(movie.getTitle());
+            mTitleTextView.setText(mMovie.getTitle());
+
+            Picasso.with(getActivity())
+                    .load(mMovie.getPoster())
+                    .placeholder(R.drawable.poster_placeholder)
+                    .into(mPosterImageView);
         }
     }
 
@@ -88,21 +86,23 @@ public class WatchlistFragment extends Fragment {
         @Override
         public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+
             return new MovieHolder(layoutInflater, parent);
         }
 
         @Override
         public void onBindViewHolder(MovieHolder holder, int position) {
-//            Intent intent = getActivity().getIntent();
-//
-//            String uuid = intent.getStringExtra("uuid");
-//            String title = intent.getStringExtra("title");
-//            String poster = intent.getStringExtra("poster");
-
             Movie movie = mMovies.get(position);
-            holder.bind(movie);
-            Picasso.with(getActivity())
-                    .load(movie.getPoster())
+            TextView title = holder.mTitleTextView;
+            ImageView poster = holder.mPosterImageView;
+
+            // setting the title
+            title.setText(movie.getTitle());
+
+            // setting the poster
+            Uri uri = Uri.parse(movie.getURL());
+            Context context = poster.getContext();
+            Picasso.with(context).load(uri)
                     .placeholder(R.drawable.poster_placeholder)
                     .into(holder.mPosterImageView);
         }
@@ -118,8 +118,8 @@ public class WatchlistFragment extends Fragment {
     }
 
     public void updateUI() {
-        MovieLab movieLab = MovieLab.get(getActivity());
-        List<Movie> movies = movieLab.getMovies();
+        final MovieLab movieLab = MovieLab.get(getActivity());
+        final List<Movie> movies = movieLab.getMovies();
 
         // display text saying the list is empty
         if (movies.size()==0) {
@@ -139,5 +139,31 @@ public class WatchlistFragment extends Fragment {
             mAdapter.setMovies(movies);
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void deleteMovie(final Movie movie) {
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                // Remove item from backing list here
+                if (swipeDir == ItemTouchHelper.RIGHT || swipeDir == ItemTouchHelper.LEFT) {
+
+                    MovieLab.get(getActivity()).deleteMovie(movie);
+
+                    Toast.makeText(getActivity(),
+                            "The movie was deleted from your watchlist",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(mMovieRecyclerView);
     }
 }
