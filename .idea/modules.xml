@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MovieHub.iml" filepath="$PROJECT_DIR$/MovieHub.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MovieHub - TESTER.iml" filepath="$PROJECT_DIR$/MovieHub - TESTER.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

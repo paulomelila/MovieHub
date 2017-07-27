@@ -6,7 +6,6 @@ import android.database.CursorWrapper;
 import com.gmail.paulovitormelila.moviehub.Movie;
 import com.gmail.paulovitormelila.moviehub.database.MovieDbSchema.MovieTable;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**

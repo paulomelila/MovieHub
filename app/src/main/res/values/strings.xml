@@ -9,9 +9,11 @@
     <string name="upcoming_movies">Upcoming</string>
     <string name="search_hint">Search</string>
     <string name="watchlist">Watchlist</string>
-    <string name="watchlist_empty">Your watchlist is empty.</string>
+    <string name="watchlist_empty">Your watchlist is empty</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="movie_title">Movie Title</string>
+    <string name="added_to_watchlist">was added to your watchlist</string>
+    <string name="removed_from_watchlist">was removed from your watchlist</string>
 
 
 

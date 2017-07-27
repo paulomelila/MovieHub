@@ -8,4 +8,5 @@ public class WatchlistActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         return new WatchlistFragment();
     }
+
 }

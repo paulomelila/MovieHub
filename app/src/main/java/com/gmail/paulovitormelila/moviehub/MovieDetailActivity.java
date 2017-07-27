@@ -1,6 +1,5 @@
 package com.gmail.paulovitormelila.moviehub;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -32,7 +31,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
-
         if (getIntent().hasExtra(EXTRA_MOVIE)) {
             mMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
             Log.d(TAG, "onCreate: " + mMovie.getTitle());
@@ -49,6 +47,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.movie_title);
         description = (TextView) findViewById(R.id.movie_description);
         poster = (ImageView) findViewById(R.id.movie_poster);
+        add_to_watchlist = (FloatingActionButton) findViewById(R.id.add_to_watchlist_btn);
 
         title.setText(mMovie.getTitle());
         description.setText(mMovie.getDescription());
@@ -59,26 +58,56 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .load(mMovie.getBackdrop())
                 .into(backdrop);
 
-        add_to_watchlist = (FloatingActionButton) findViewById(R.id.add_to_watchlist);
-        add_to_watchlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // visual part
-                Toast added_to_watchlist = Toast.makeText(MovieDetailActivity.this, mMovie.getTitle() + " was added to your watchlist.", Toast.LENGTH_LONG);
-                TextView message = (TextView) added_to_watchlist.getView().findViewById(android.R.id.message);
-                if (message != null) message.setGravity(Gravity.CENTER);
-                added_to_watchlist.show();
-                add_to_watchlist.setImageResource(R.mipmap.ic_added_to_watchlist);
+        watchlistBtnOnClickListener();
+    }
 
-                // send intent to WatchlistActivity
-                MovieLab.get(getApplicationContext()).addMovie(mMovie);
+    public void watchlistBtnOnClickListener() {
+        MovieLab movieLab = MovieLab.get(getApplicationContext());
+        Movie m = movieLab.getMovie(mMovie.getTitle());
 
-                Intent watchlist = new Intent(MovieDetailActivity.this, WatchlistActivity.class);
-                watchlist.putExtra("uuid", mMovie.getId());
-                watchlist.putExtra("title", mMovie.getTitle());
-                watchlist.putExtra("poster", mMovie.getPoster());
-                startActivity(watchlist);
-            }
-        });
+        if (m==null) {
+            add_to_watchlist.setImageResource(R.mipmap.ic_add_to_watchlist);
+            add_to_watchlist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // visual part
+                    add_to_watchlist.setImageResource(R.mipmap.ic_added_to_watchlist);
+                    addToast();
+
+                    // send intent to WatchlistActivity
+                    MovieLab.get(getApplicationContext()).addMovie(mMovie);
+                }
+            });
+
+        } else {
+            add_to_watchlist.setImageResource(R.mipmap.ic_added_to_watchlist);
+            add_to_watchlist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // visual part
+                    add_to_watchlist.setImageResource(R.mipmap.ic_add_to_watchlist);
+                    removeToast();
+
+                    // send intent to WatchlistActivity
+                    MovieLab.get(getApplicationContext()).deleteMovie(mMovie);
+                }
+            });
+        }
+    }
+
+    public void addToast() {
+        Toast added_to_watchlist = Toast.makeText(MovieDetailActivity.this, mMovie.getTitle() + " " + getString(R.string.added_to_watchlist), Toast.LENGTH_LONG);
+        TextView message = (TextView) added_to_watchlist.getView().findViewById(android.R.id.message);
+        if (message != null) message.setGravity(Gravity.CENTER);
+        added_to_watchlist.show();
+        add_to_watchlist.setImageResource(R.mipmap.ic_added_to_watchlist);
+    }
+
+    public void removeToast() {
+        Toast deleted_from_watchlist = Toast.makeText(MovieDetailActivity.this, mMovie.getTitle() + " " + getString(R.string.removed_from_watchlist), Toast.LENGTH_LONG);
+        TextView message = (TextView) deleted_from_watchlist.getView().findViewById(android.R.id.message);
+        if (message != null) message.setGravity(Gravity.CENTER);
+        deleted_from_watchlist.show();
+        add_to_watchlist.setImageResource(R.mipmap.ic_add_to_watchlist);
     }
 }

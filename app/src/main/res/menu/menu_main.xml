@@ -10,9 +10,6 @@
             android:orderInCategory="1"
             app:showAsAction="collapseActionView|ifRoom"
             app:actionViewClass="android.support.v7.widget.SearchView"/>
-
-
-
     </group>
 
     <item android:id="@+id/watchlist"

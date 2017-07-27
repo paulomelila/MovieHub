@@ -11,7 +11,6 @@ import com.gmail.paulovitormelila.moviehub.database.MovieDbSchema.MovieTable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Paulo on 19/07/2017.
@@ -74,10 +73,10 @@ public class MovieLab {
     }
 
     public void deleteMovie(Movie movie) {
-        String uuidString = movie.getId().toString();
+        String title = movie.getTitle();
         mDatabase.delete(MovieTable.NAME,
-                MovieTable.Cols.UUID + " = ?",
-                new String[] {uuidString});
+                MovieTable.Cols.TITLE + " = ?",
+                new String[] {title});
     }
 
     public List<Movie> getMovies() {
@@ -98,10 +97,10 @@ public class MovieLab {
         return movies;
     }
 
-    public Movie getMovie(UUID id){
+    public Movie getMovie(String title){
         MovieCursorWrapper cursor = queryMovies(
-                MovieTable.Cols.UUID + " = ?",
-                new String[] {id.toString()}
+                MovieTable.Cols.TITLE + " = ?",
+                new String[] {title}
         );
 
         try {
@@ -115,4 +114,5 @@ public class MovieLab {
             cursor.close();
         }
     }
+
 }

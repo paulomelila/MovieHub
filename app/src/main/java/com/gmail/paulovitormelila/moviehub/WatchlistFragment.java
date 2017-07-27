@@ -1,14 +1,12 @@
 package com.gmail.paulovitormelila.moviehub;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Paulo on 18/07/2017.
@@ -55,6 +52,7 @@ public class WatchlistFragment extends Fragment {
     private class MovieHolder extends RecyclerView.ViewHolder {
         private ImageView mPosterImageView;
         private TextView mTitleTextView;
+        private ImageView mDeleteButton;
 
         private Movie mMovie;
 
@@ -63,6 +61,7 @@ public class WatchlistFragment extends Fragment {
 
             mPosterImageView = (ImageView) itemView.findViewById(R.id.poster_movie);
             mTitleTextView = (TextView) itemView.findViewById(R.id.title_movie);
+            mDeleteButton = (ImageView) itemView.findViewById(R.id.delete_button);
         }
 
         public void bind(Movie movie) {
@@ -92,9 +91,10 @@ public class WatchlistFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MovieHolder holder, int position) {
-            Movie movie = mMovies.get(position);
+            final Movie movie = mMovies.get(position);
             TextView title = holder.mTitleTextView;
             ImageView poster = holder.mPosterImageView;
+            ImageView delete = holder.mDeleteButton;
 
             // setting the title
             title.setText(movie.getTitle());
@@ -105,6 +105,17 @@ public class WatchlistFragment extends Fragment {
             Picasso.with(context).load(uri)
                     .placeholder(R.drawable.poster_placeholder)
                     .into(holder.mPosterImageView);
+
+            // deleting movie from watchlist
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MovieLab.get(getContext()).deleteMovie(movie);
+                    removeToast(movie);
+                    notifyDataSetChanged();
+                    updateUI();
+                }
+            });
         }
 
         @Override
@@ -123,7 +134,7 @@ public class WatchlistFragment extends Fragment {
 
         // display text saying the list is empty
         if (movies.size()==0) {
-            //Toast.makeText(getActivity(), R.string.watchlist_empty, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.watchlist_empty, Toast.LENGTH_LONG).show();
         }
 
         if (mAdapter == null) {
@@ -141,29 +152,10 @@ public class WatchlistFragment extends Fragment {
         }
     }
 
-    public void deleteMovie(final Movie movie) {
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                // Remove item from backing list here
-                if (swipeDir == ItemTouchHelper.RIGHT || swipeDir == ItemTouchHelper.LEFT) {
-
-                    MovieLab.get(getActivity()).deleteMovie(movie);
-
-                    Toast.makeText(getActivity(),
-                            "The movie was deleted from your watchlist",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-        });
-
-        itemTouchHelper.attachToRecyclerView(mMovieRecyclerView);
+    public void removeToast(Movie movie) {
+        Toast deleted_from_watchlist = Toast.makeText(getContext(), movie.getTitle() + " " + getString(R.string.removed_from_watchlist), Toast.LENGTH_SHORT);
+        TextView message = (TextView) deleted_from_watchlist.getView().findViewById(android.R.id.message);
+        if (message != null) message.setGravity(Gravity.CENTER);
+        deleted_from_watchlist.show();
     }
 }
