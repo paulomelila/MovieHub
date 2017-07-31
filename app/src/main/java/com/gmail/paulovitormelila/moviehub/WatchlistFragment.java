@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,7 +91,7 @@ public class WatchlistFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(MovieHolder holder, int position) {
+        public void onBindViewHolder (MovieHolder holder, int position) {
             final Movie movie = mMovies.get(position);
             TextView title = holder.mTitleTextView;
             ImageView poster = holder.mPosterImageView;
@@ -132,11 +133,6 @@ public class WatchlistFragment extends Fragment {
         final MovieLab movieLab = MovieLab.get(getActivity());
         final List<Movie> movies = movieLab.getMovies();
 
-        // display text saying the list is empty
-        if (movies.size()==0) {
-            Toast.makeText(getActivity(), R.string.watchlist_empty, Toast.LENGTH_LONG).show();
-        }
-
         if (mAdapter == null) {
             mAdapter = new MovieAdapter(movies);
             mMovieRecyclerView.setAdapter(mAdapter);
@@ -157,5 +153,22 @@ public class WatchlistFragment extends Fragment {
         TextView message = (TextView) deleted_from_watchlist.getView().findViewById(android.R.id.message);
         if (message != null) message.setGravity(Gravity.CENTER);
         deleted_from_watchlist.show();
+    }
+
+    public void swipeRightToDelete() {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                // Remove item from backing list here
+
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(mMovieRecyclerView);
     }
 }
