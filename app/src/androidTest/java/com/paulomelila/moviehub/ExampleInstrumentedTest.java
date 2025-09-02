@@ -1,4 +1,4 @@
-package com.gmail.paulovitormelila.moviehub;
+package com.paulomelila.moviehub;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.gmail.paulovitormelila.moviehub", appContext.getPackageName());
+        assertEquals("com.paulomelila.com.paulomelila.moviehub", appContext.getPackageName());
     }
 }

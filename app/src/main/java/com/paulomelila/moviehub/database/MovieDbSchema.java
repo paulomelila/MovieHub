@@ -1,8 +1,4 @@
-package com.gmail.paulovitormelila.moviehub.database;
-
-/**
- * Created by Paulo on 06/07/2017.
- */
+package com.paulomelila.moviehub.database;
 
 public class MovieDbSchema {
     public static final class MovieTable {

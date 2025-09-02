@@ -1,4 +1,4 @@
-package com.gmail.paulovitormelila.moviehub;
+package com.paulomelila.moviehub;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.gmail.paulovitormelila.moviehub;
+package com.paulomelila.moviehub;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -13,34 +13,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity {
-
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -58,14 +46,11 @@ public class HomePageActivity extends AppCompatActivity {
         search.setMaxWidth( Integer.MAX_VALUE );
 
         MenuItem watchlist = menu.findItem(R.id.watchlist);
-        watchlist.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent watchlist = new Intent(HomePageActivity.this, WatchlistActivity.class);
-                startActivity(watchlist);
+        watchlist.setOnMenuItemClickListener(item -> {
+            Intent watchlist1 = new Intent(HomePageActivity.this, WatchlistActivity.class);
+            startActivity(watchlist1);
 
-                return true;
-            }
+            return true;
         });
 
         return true;
@@ -81,7 +66,7 @@ public class HomePageActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    private class ViewPagerAdapter extends FragmentPagerAdapter {
+    private static class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

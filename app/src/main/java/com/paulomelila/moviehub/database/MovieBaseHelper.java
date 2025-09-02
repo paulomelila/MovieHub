@@ -1,14 +1,9 @@
-package com.gmail.paulovitormelila.moviehub.database;
+package com.paulomelila.moviehub.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.gmail.paulovitormelila.moviehub.database.MovieDbSchema.MovieTable;
-
-/**
- * Created by Paulo on 06/07/2017.
- */
+import com.paulomelila.moviehub.database.MovieDbSchema.MovieTable;
 
 public class MovieBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;

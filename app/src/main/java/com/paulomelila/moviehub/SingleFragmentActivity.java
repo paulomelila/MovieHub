@@ -1,4 +1,4 @@
-package com.gmail.paulovitormelila.moviehub;
+package com.paulomelila.moviehub;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

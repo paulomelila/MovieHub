@@ -1,14 +1,12 @@
-package com.gmail.paulovitormelila.moviehub;
+package com.paulomelila.moviehub;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,22 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class PopularMoviesFragment extends Fragment {
-    private RecyclerView mRecyclerView;
+public class TopRatedMoviesFragment extends Fragment {
     private MoviesAdapter mAdapter;
-    public static final String API_KEY = "8f5f6df0585d0d2b95c786ab35858e78";
+    public static final String API_KEY = "ee1daeae6030eca8cd780ff70236c15d";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,13 +34,13 @@ public class PopularMoviesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_popular_movies, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        View view = inflater.inflate(R.layout.fragment_top_rated_movies, container, false);
+        RecyclerView mRecyclerView = view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mAdapter = new MoviesAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
-        getPopularMovies();
+        getTopRatedMovies();
 
         return view;
     }
@@ -67,31 +61,29 @@ public class PopularMoviesFragment extends Fragment {
         public ImageView imageView;
         public MovieViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageView);
         }
     }
     public static class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         private List<Movie> mMovieList;
-        private LayoutInflater mInflater;
-        private Context mContext;
+        private final LayoutInflater mInflater;
+        private final Context mContext;
 
         public MoviesAdapter(Context context) {
             this.mContext = context;
             this.mInflater = LayoutInflater.from(context);
         }
 
+        @NonNull
         @Override
-        public MovieViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+        public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
             View view = mInflater.inflate(R.layout.row_movie, parent, false);
             final MovieViewHolder viewHolder = new MovieViewHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = viewHolder.getAdapterPosition();
-                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                    intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
-                    mContext.startActivity(intent);
-                }
+            view.setOnClickListener(view1 -> {
+                int position = viewHolder.getAdapterPosition();
+                Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, mMovieList.get(position));
+                mContext.startActivity(intent);
             });
             return viewHolder;
         }
@@ -99,7 +91,7 @@ public class PopularMoviesFragment extends Fragment {
         @Override
         public void onBindViewHolder(MovieViewHolder holder, int position) {
             Movie movie = mMovieList.get(position);
-            Picasso.with(mContext)
+            Picasso.get()
                     .load(movie.getPoster())
                     .placeholder(R.drawable.poster_placeholder)
                     .into(holder.imageView);
@@ -117,20 +109,21 @@ public class PopularMoviesFragment extends Fragment {
         }
     }
 
-    private void getPopularMovies() {
+    private void getTopRatedMovies() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.themoviedb.org/3")
+                .setEndpoint("https://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
                         request.addEncodedQueryParam("api_key", API_KEY);
-                        request.addEncodedQueryParam("sort_by", "popularity.desc");
+                        request.addEncodedQueryParam("sort_by", "vote_average.desc");
+                        request.addEncodedQueryParam("vote_count.gte", "1000");
                     }
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         MoviesApiService service = restAdapter.create(MoviesApiService.class);
-        service.getPopularMovies(new Callback<Movie.MovieResult>() {
+        service.getTopRatedMovies(new Callback<Movie.MovieResult>() {
             @Override
             public void success(Movie.MovieResult movieResult, Response response) {
                 mAdapter.setMovieList(movieResult.getResults());

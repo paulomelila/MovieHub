@@ -40,7 +40,7 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="SingleFragmentActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gmail/paulovitormelila/moviehub/SingleFragmentActivity.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/paulomelila/moviehub/SingleFragmentActivity.java">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
@@ -66,11 +66,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/HomePageActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/HomePageActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_watchlist.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/MovieDetailActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/WatchlistFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/MovieDetailActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/WatchlistFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_movie.xml" />
       </list>
     </option>
@@ -444,17 +444,17 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_watchlist.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_movie.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/HomePageActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/MoviesApiService.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/HomePageActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/MoviesApiService.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home_page.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/database/MovieBaseHelper.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/database/MovieCursorWrapper.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/WatchlistActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/WatchlistFragment.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/database/MovieBaseHelper.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/database/MovieCursorWrapper.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/WatchlistActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/WatchlistFragment.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/HomePageActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/WatchlistFragment.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/HomePageActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/WatchlistFragment.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_watchlist.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_movie.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home_page.xml" />
@@ -463,31 +463,31 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_now_playing_movies.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_search_results.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_single_fragment.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/HomePageActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/WatchlistFragment.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/MovieDetailActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/HomePageActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/NowPlayingMoviesFragment.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/HomePageActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/WatchlistFragment.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/MovieDetailActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/HomePageActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/NowPlayingMoviesFragment.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/row_movie.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/MovieDetailActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/MovieDetailActivity.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_single_fragment.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_search_results.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_now_playing_movies.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_movie_detail.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_movie_detail.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/WatchlistActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/WatchlistFragment.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/WatchlistActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/WatchlistFragment.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_watchlist.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_movie.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/HomePageActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/MoviesApiService.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/HomePageActivity.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/MoviesApiService.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home_page.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/database/MovieBaseHelper.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gmail/paulovitormelila/moviehub/database/MovieCursorWrapper.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gmail/paulovitormelila/moviehub/SingleFragmentActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/database/MovieBaseHelper.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/paulomelila/moviehub/database/MovieCursorWrapper.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/paulomelila/moviehub/SingleFragmentActivity.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>

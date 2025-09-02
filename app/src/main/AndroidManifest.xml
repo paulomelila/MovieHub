@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gmail.paulovitormelila.moviehub">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,6 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".HomePageActivity"
+            android:exported="true"
             android:launchMode="singleTop">
 
             <!-- meta tag points to the activity which displays the results -->
@@ -32,13 +32,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SearchResultsActivity"
+            android:exported="true"
             android:label="@string/search_results"
             android:parentActivityName=".HomePageActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gmail.paulovitormelila.moviehub.HomePageActivity" />
+                android:value=".HomePageActivity" />
             <!-- meta tag and intent filter go into results activity -->
             <meta-data
                 android:name="android.app.searchable"

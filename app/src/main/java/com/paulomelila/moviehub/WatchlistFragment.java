@@ -1,12 +1,12 @@
-package com.gmail.paulovitormelila.moviehub;
+package com.paulomelila.moviehub;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
-
-/**
- * Created by Paulo on 18/07/2017.
- */
 
 public class WatchlistFragment extends Fragment {
     private RecyclerView mMovieRecyclerView;
@@ -42,7 +36,7 @@ public class WatchlistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_watchlist, container, false);
-        mMovieRecyclerView = (RecyclerView) view.findViewById(R.id.watchlist_recycler_view);
+        mMovieRecyclerView = view.findViewById(R.id.watchlist_recycler_view);
         mMovieRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         updateUI();
@@ -50,29 +44,17 @@ public class WatchlistFragment extends Fragment {
         return view;
     }
 
-    private class MovieHolder extends RecyclerView.ViewHolder {
-        private ImageView mPosterImageView;
-        private TextView mTitleTextView;
-        private ImageView mDeleteButton;
-
-        private Movie mMovie;
+    private static class MovieHolder extends RecyclerView.ViewHolder {
+        private final ImageView mPosterImageView;
+        private final TextView mTitleTextView;
+        private final ImageView mDeleteButton;
 
         public MovieHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_movie, parent, false));
 
-            mPosterImageView = (ImageView) itemView.findViewById(R.id.poster_movie);
-            mTitleTextView = (TextView) itemView.findViewById(R.id.title_movie);
-            mDeleteButton = (ImageView) itemView.findViewById(R.id.delete_button);
-        }
-
-        public void bind(Movie movie) {
-            mMovie = movie;
-            mTitleTextView.setText(mMovie.getTitle());
-
-            Picasso.with(getActivity())
-                    .load(mMovie.getPoster())
-                    .placeholder(R.drawable.poster_placeholder)
-                    .into(mPosterImageView);
+            mPosterImageView = itemView.findViewById(R.id.poster_movie);
+            mTitleTextView = itemView.findViewById(R.id.title_movie);
+            mDeleteButton = itemView.findViewById(R.id.delete_button);
         }
     }
 
@@ -83,8 +65,9 @@ public class WatchlistFragment extends Fragment {
             mMovies = movies;
         }
 
+        @NonNull
         @Override
-        public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 
             return new MovieHolder(layoutInflater, parent);
@@ -103,19 +86,16 @@ public class WatchlistFragment extends Fragment {
             // setting the poster
             Uri uri = Uri.parse(movie.getURL());
             Context context = poster.getContext();
-            Picasso.with(context).load(uri)
+            Picasso.get().load(uri)
                     .placeholder(R.drawable.poster_placeholder)
                     .into(holder.mPosterImageView);
 
             // deleting movie from watchlist
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MovieLab.get(getContext()).deleteMovie(movie);
-                    removeToast(movie);
-                    notifyDataSetChanged();
-                    updateUI();
-                }
+            delete.setOnClickListener(v -> {
+                MovieLab.get(getContext()).deleteMovie(movie);
+                removeToast(movie);
+                notifyDataSetChanged();
+                updateUI();
             });
         }
 
@@ -150,25 +130,8 @@ public class WatchlistFragment extends Fragment {
 
     public void removeToast(Movie movie) {
         Toast deleted_from_watchlist = Toast.makeText(getContext(), movie.getTitle() + " " + getString(R.string.removed_from_watchlist), Toast.LENGTH_SHORT);
-        TextView message = (TextView) deleted_from_watchlist.getView().findViewById(android.R.id.message);
+        TextView message = deleted_from_watchlist.getView().findViewById(android.R.id.message);
         if (message != null) message.setGravity(Gravity.CENTER);
         deleted_from_watchlist.show();
-    }
-
-    public void swipeRightToDelete() {
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                // Remove item from backing list here
-
-            }
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-        });
-
-        itemTouchHelper.attachToRecyclerView(mMovieRecyclerView);
     }
 }

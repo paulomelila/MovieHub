@@ -1,16 +1,10 @@
-package com.gmail.paulovitormelila.moviehub.database;
+package com.paulomelila.moviehub.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
-
-import com.gmail.paulovitormelila.moviehub.Movie;
-import com.gmail.paulovitormelila.moviehub.database.MovieDbSchema.MovieTable;
-
+import com.paulomelila.moviehub.Movie;
+import com.paulomelila.moviehub.database.MovieDbSchema.MovieTable;
 import java.util.UUID;
-
-/**
- * Created by Paulo on 07/07/2017.
- */
 
 public class MovieCursorWrapper extends CursorWrapper {
 

@@ -1,27 +1,18 @@
-package com.gmail.paulovitormelila.moviehub;
+package com.paulomelila.moviehub;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.gmail.paulovitormelila.moviehub.database.MovieBaseHelper;
-import com.gmail.paulovitormelila.moviehub.database.MovieCursorWrapper;
-import com.gmail.paulovitormelila.moviehub.database.MovieDbSchema.MovieTable;
-
+import com.paulomelila.moviehub.database.MovieBaseHelper;
+import com.paulomelila.moviehub.database.MovieCursorWrapper;
+import com.paulomelila.moviehub.database.MovieDbSchema.MovieTable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Paulo on 19/07/2017.
- */
-
 public class MovieLab {
     private static MovieLab sMovieLab;
-    private Context mContext;
-    private SQLiteDatabase mDatabase;
-
-//    private LinkedHashMap<UUID, Crime> mCrimes;
+    private final SQLiteDatabase mDatabase;
 
     public static MovieLab get(Context context) {
         if (sMovieLab == null) {
@@ -32,7 +23,7 @@ public class MovieLab {
 
     private MovieLab(Context context) {
         // database
-        mContext = context.getApplicationContext();
+        Context mContext = context.getApplicationContext();
         mDatabase = new MovieBaseHelper(mContext).getWritableDatabase();
     }
 
@@ -41,7 +32,6 @@ public class MovieLab {
         values.put(MovieTable.Cols.UUID, movie.getId().toString());
         values.put(MovieTable.Cols.TITLE, movie.getTitle());
         values.put(MovieTable.Cols.POSTER, movie.getPoster());
-
         return values;
     }
 
@@ -53,7 +43,6 @@ public class MovieLab {
     public void updateMovie(Movie movie) {
         String uuidString = movie.getId().toString();
         ContentValues values = getContentValues(movie);
-
         mDatabase.update(MovieTable.NAME, values, MovieTable.Cols.UUID + " = ?",
                 new String[] {uuidString});
     }
@@ -68,7 +57,6 @@ public class MovieLab {
                 null,         // having
                 null          // orderBy
         );
-
         return new MovieCursorWrapper(cursor);
     }
 
@@ -81,38 +69,26 @@ public class MovieLab {
 
     public List<Movie> getMovies() {
         List<Movie> movies = new ArrayList<>();
-
-        MovieCursorWrapper cursor = queryMovies(null, null);
-
-        try {
+        try (MovieCursorWrapper cursor = queryMovies(null, null)) {
             cursor.moveToFirst();
-            while(!cursor.isAfterLast()) {
+            while (!cursor.isAfterLast()) {
                 movies.add(cursor.getMovie());
                 cursor.moveToNext();
             }
-        } finally {
-            cursor.close();
         }
-
         return movies;
     }
 
     public Movie getMovie(String title){
-        MovieCursorWrapper cursor = queryMovies(
+        try (MovieCursorWrapper cursor = queryMovies(
                 MovieTable.Cols.TITLE + " = ?",
-                new String[] {title}
-        );
-
-        try {
+                new String[]{title}
+        )) {
             if (cursor.getCount() == 0) {
                 return null;
             }
             cursor.moveToFirst();
             return cursor.getMovie();
-
-        } finally {
-            cursor.close();
         }
     }
-
 }
