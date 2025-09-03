@@ -1,6 +1,7 @@
 package com.paulomelila.moviehub;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +30,21 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
 
         if (getIntent().hasExtra(EXTRA_MOVIE)) {
-            mMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
-            Log.d(TAG, "onCreate: " + mMovie.getTitle());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // For Android 13 (API 33) and above
+                mMovie = getIntent().getParcelableExtra(EXTRA_MOVIE, Movie.class);
+            } else {
+                mMovie = getIntent().getParcelableExtra(EXTRA_MOVIE);
+            }
+
+            if (mMovie != null) {
+                Log.d(TAG, "onCreate: " + mMovie.getTitle());
+            } else {
+                // Handle the case where the movie is null, perhaps throw an error or finish activity
+                Log.e(TAG, "Movie data is null after retrieving from intent.");
+                // You might want to throw an exception or finish the activity here if mMovie is critical
+                throw new IllegalArgumentException("Detail activity received null movie parcelable");
+            }
         } else {
             throw new IllegalArgumentException("Detail activity must receive a movie parcelable");
         }

@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties') // Access local.properties from root project
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
 android {
     namespace "com.paulomelila.moviehub"
     compileSdkVersion 36
@@ -10,7 +18,14 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "TMDB_API_KEY", "\"${localProperties.getProperty('TMDB_API_KEY')}\""
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,6 +37,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // For Java compilation warnings
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs += [
+                '-Xlint:deprecation'
+        ]
+    }
+
 }
 
 dependencies {

@@ -20,16 +20,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class UpcomingMoviesFragment extends Fragment {
     private MoviesAdapter mAdapter;
-    public static final String API_KEY = "ee1daeae6030eca8cd780ff70236c15d";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,14 +123,11 @@ public class UpcomingMoviesFragment extends Fragment {
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://api.themoviedb.org/3")
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", API_KEY);
-                        request.addEncodedQueryParam("sort_by", "popularity.desc");
-                        request.addEncodedQueryParam("primary_release_date.gte", today);
-                        request.addEncodedQueryParam("primary_release_date.lte", in_six_months);
-                    }
+                .setRequestInterceptor(request -> {
+                    request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    request.addEncodedQueryParam("sort_by", "popularity.desc");
+                    request.addEncodedQueryParam("primary_release_date.gte", today);
+                    request.addEncodedQueryParam("primary_release_date.lte", in_six_months);
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();

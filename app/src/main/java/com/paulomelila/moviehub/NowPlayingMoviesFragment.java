@@ -18,14 +18,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class NowPlayingMoviesFragment extends Fragment {
     private MoviesAdapter mAdapter;
-    public static final String API_KEY = "ee1daeae6030eca8cd780ff70236c15d";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,12 +108,7 @@ public class NowPlayingMoviesFragment extends Fragment {
     private void getNowPlayingMovies() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://api.themoviedb.org/3")
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", API_KEY);
-                    }
-                })
+                .setRequestInterceptor(request -> request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY))
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         MoviesApiService service = restAdapter.create(MoviesApiService.class);

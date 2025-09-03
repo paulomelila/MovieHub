@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,21 +20,19 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private MoviesAdapter mAdapter;
-    public static final String API_KEY = "ee1daeae6030eca8cd780ff70236c15d";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
@@ -47,7 +44,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
-        SearchView search = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -133,12 +130,9 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://api.themoviedb.org/3")
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", API_KEY);
-                        request.addEncodedQueryParam("query", movie);
-                    }
+                .setRequestInterceptor(request -> {
+                    request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    request.addEncodedQueryParam("query", movie);
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();

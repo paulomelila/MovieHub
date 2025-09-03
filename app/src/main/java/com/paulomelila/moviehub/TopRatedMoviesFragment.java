@@ -18,14 +18,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class TopRatedMoviesFragment extends Fragment {
     private MoviesAdapter mAdapter;
-    public static final String API_KEY = "ee1daeae6030eca8cd780ff70236c15d";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,13 +110,10 @@ public class TopRatedMoviesFragment extends Fragment {
     private void getTopRatedMovies() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://api.themoviedb.org/3")
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", API_KEY);
-                        request.addEncodedQueryParam("sort_by", "vote_average.desc");
-                        request.addEncodedQueryParam("vote_count.gte", "1000");
-                    }
+                .setRequestInterceptor(request -> {
+                    request.addEncodedQueryParam("api_key", BuildConfig.TMDB_API_KEY);
+                    request.addEncodedQueryParam("sort_by", "vote_average.desc");
+                    request.addEncodedQueryParam("vote_count.gte", "1000");
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
